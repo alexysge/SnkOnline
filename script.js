@@ -10,7 +10,7 @@ const firebaseConfig = {
     messagingSenderId: "423981876403",
     appId: "1:423981876403:web:4edfd365fca6fabcd69cc6",
     measurementId: "G-8QNTSRXZVW"
-  };
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -46,10 +46,10 @@ async function loadRankings() {
     try {
         const q = query(scoresCol, orderBy("score", "desc"), limit(10));
         const querySnapshot = await getDocs(q);
-        
+
         rankingList.innerHTML = ""; // Limpiar lista
         let position = 1;
-        
+
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             const li = document.createElement("li");
@@ -96,7 +96,7 @@ function initGame() {
     dy = 0;
     scoreElement.innerHTML = score;
     gameOverScreen.classList.add("hidden");
-    
+
     // Restaurar UI de guardado
     if (saveSection) saveSection.style.display = "block";
     saveBtn.disabled = false;
@@ -210,16 +210,17 @@ document.addEventListener("keydown", event => {
     }
 });
 
-// --- 7. CONTROLES TÁCTILES (SWIPE) ---
+// --- 7. CONTROLES TÁCTILES (SWIPE) MEJORADOS ---
 let touchStartX = 0;
 let touchStartY = 0;
 
-canvas.addEventListener('touchstart', e => {
+// Cambiamos 'canvas' por 'document' para capturar el dedo en cualquier parte de la pantalla
+document.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
 }, { passive: false });
 
-canvas.addEventListener('touchend', e => {
+document.addEventListener('touchend', e => {
     if (changingDirection) return;
     let touchEndX = e.changedTouches[0].screenX;
     let touchEndY = e.changedTouches[0].screenY;
@@ -227,17 +228,28 @@ canvas.addEventListener('touchend', e => {
     let dxTouch = touchEndX - touchStartX;
     let dyTouch = touchEndY - touchStartY;
 
+    // Umbral mínimo (30px) para ignorar toques accidentales o muy cortos
+    if (Math.abs(dxTouch) < 30 && Math.abs(dyTouch) < 30) return;
+
     const goingUp = dy === -gridSize;
     const goingDown = dy === gridSize;
     const goingRight = dx === gridSize;
     const goingLeft = dx === -gridSize;
 
+    // Detectar si el usuario deslizó más en horizontal o en vertical
     if (Math.abs(dxTouch) > Math.abs(dyTouch)) {
-        if (dxTouch > 0 && !goingLeft) { dx = gridSize; dy = 0; changingDirection = true; } 
-        else if (dxTouch < 0 && !goingRight) { dx = -gridSize; dy = 0; changingDirection = true; } 
+        if (dxTouch > 0 && !goingLeft) { dx = gridSize; dy = 0; changingDirection = true; }
+        else if (dxTouch < 0 && !goingRight) { dx = -gridSize; dy = 0; changingDirection = true; }
     } else {
-        if (dyTouch > 0 && !goingUp) { dx = 0; dy = gridSize; changingDirection = true; } 
-        else if (dyTouch < 0 && !goingDown) { dx = 0; dy = -gridSize; changingDirection = true; } 
+        if (dyTouch > 0 && !goingUp) { dx = 0; dy = gridSize; changingDirection = true; }
+        else if (dyTouch < 0 && !goingDown) { dx = 0; dy = -gridSize; changingDirection = true; }
+    }
+}, { passive: false });
+
+// Prevenir que la pantalla haga scroll vertical al jugar
+document.addEventListener('touchmove', e => {
+    if (e.target === canvas) {
+        e.preventDefault();
     }
 }, { passive: false });
 
