@@ -37,10 +37,12 @@ Si deseas correr este proyecto en tu entorno local para hacer pruebas o modifica
 ## 📸 Capturas de Pantalla
 
 **Vista en Computadora:**
+
 ![Juego inicio en PC](1.png)
 ![Juego in game en PC](2.png)
 ![Juego final en PC](3.png)
 
 **Vista en Celular (con controles táctiles):**
-![Juego inicio en Móvil](cel1.png)
-![Juego final en Móvil](cel2.png)
+
+![Juego inicio en Móvil](cel1.jpg)
+![Juego final en Móvil](cel2.jpg)
