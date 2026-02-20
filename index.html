@@ -9,9 +9,23 @@
 </head>
 
 <body>
+    <div id="start-screen">
+            <h1>🐍 Snake Online</h1>
+            <p style="margin-top: 10px; margin-bottom: 20px;">Usa las flechas, WASD o desliza en tu pantalla para jugar.</p>
+            <button id="start-btn" style="background-color: #3498db; padding: 15px 30px; font-size: 1.2rem;">Iniciar Juego</button>
+    </div>
     <div id="game-container">
         <div id="score-board">Puntuación: <span id="score">0</span></div>
         <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+        <div id="mobile-controls">
+            <button id="btn-up" class="control-btn">⬆️</button>
+            <div class="horizontal-btns">
+                <button id="btn-left" class="control-btn">⬅️</button>
+                <button id="btn-down" class="control-btn">⬇️</button>
+                <button id="btn-right" class="control-btn">➡️</button>
+            </div>
+        </div>
 
         <div id="game-over-screen" class="hidden">
             <h2>¡Juego Terminado!</h2>

@@ -23,6 +23,12 @@ const scoreElement = document.getElementById("score");
 const gameOverScreen = document.getElementById("game-over-screen");
 const finalScoreElement = document.getElementById("final-score");
 const restartBtn = document.getElementById("restart-btn");
+const startScreen = document.getElementById("start-screen");
+const startBtn = document.getElementById("start-btn");
+const btnUp = document.getElementById("btn-up");
+const btnDown = document.getElementById("btn-down");
+const btnLeft = document.getElementById("btn-left");
+const btnRight = document.getElementById("btn-right");
 
 // Variables para Firebase UI
 const saveBtn = document.getElementById("save-score-btn");
@@ -260,5 +266,28 @@ restartBtn.addEventListener("click", () => {
     initGame();
 });
 
-// Iniciar por primera vez
-initGame();
+// --- 9. BOTONES EN PANTALLA (MÓVIL) ---
+function setDirectionFromButton(newDx, newDy) {
+    if (changingDirection) return;
+    const goingUp = dy === -gridSize;
+    const goingDown = dy === gridSize;
+    const goingRight = dx === gridSize;
+    const goingLeft = dx === -gridSize;
+
+    if (newDx === -gridSize && !goingRight) { dx = -gridSize; dy = 0; changingDirection = true; } // Izquierda
+    if (newDy === -gridSize && !goingDown) { dx = 0; dy = -gridSize; changingDirection = true; }  // Arriba
+    if (newDx === gridSize && !goingLeft) { dx = gridSize; dy = 0; changingDirection = true; }    // Derecha
+    if (newDy === gridSize && !goingUp) { dx = 0; dy = gridSize; changingDirection = true; }      // Abajo
+}
+
+// Usamos 'touchstart' en lugar de 'click' para que la respuesta en celular sea instantánea
+if (btnUp) btnUp.addEventListener("touchstart", (e) => { e.preventDefault(); setDirectionFromButton(0, -gridSize); }, { passive: false });
+if (btnDown) btnDown.addEventListener("touchstart", (e) => { e.preventDefault(); setDirectionFromButton(0, gridSize); }, { passive: false });
+if (btnLeft) btnLeft.addEventListener("touchstart", (e) => { e.preventDefault(); setDirectionFromButton(-gridSize, 0); }, { passive: false });
+if (btnRight) btnRight.addEventListener("touchstart", (e) => { e.preventDefault(); setDirectionFromButton(gridSize, 0); }, { passive: false });
+
+// --- 8. CONTROLES DE PANTALLA DE INICIO ---
+startBtn.addEventListener("click", () => {
+    startScreen.classList.add("hidden"); // Oculta la pantalla de inicio
+    initGame(); // Arranca el juego
+});
