@@ -44,5 +44,5 @@ Si deseas correr este proyecto en tu entorno local para hacer pruebas o modifica
 
 **Vista en Celular (con controles táctiles):**
 
-![Juego inicio en Móvil](cel1.jpg)
-![Juego final en Móvil](cel2.jpg)
+![Juego inicio en Móvil](cel2.jpg)
+![Juego final en Móvil](cel1.jpg)

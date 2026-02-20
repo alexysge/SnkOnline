@@ -45,6 +45,7 @@ let snake = [];
 let foodX;
 let foodY;
 let gameLoopTimeout;
+let gameSpeed = 150;
 
 // --- 4. FUNCIONES DE FIREBASE ---
 async function loadRankings() {
@@ -98,6 +99,7 @@ function initGame() {
         { x: 160, y: 200 }
     ];
     score = 0;
+    gameSpeed = 150;
     dx = gridSize;
     dy = 0;
     scoreElement.innerHTML = score;
@@ -128,7 +130,7 @@ function main() {
         advanceSnake();
         drawSnake();
         main();
-    }, 100);
+    }, gameSpeed); 
 }
 
 function clearCanvas() {
@@ -161,6 +163,12 @@ function advanceSnake() {
     if (snake[0].x === foodX && snake[0].y === foodY) {
         score += 1;
         scoreElement.innerHTML = score;
+        
+        // Hacerlo más rápido cada vez que come (hasta un límite de 50ms)
+        if (gameSpeed > 40) {
+            gameSpeed -= 5; 
+        }
+        
         generateFood();
     } else {
         snake.pop();
