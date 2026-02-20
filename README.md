@@ -25,7 +25,7 @@ Si deseas correr este proyecto en tu entorno local para hacer pruebas o modifica
 
 1. Clona este repositorio:
    ```bash
-   git clone [https://github.com/](https://github.com/)[TU-USUARIO]/[TU-REPO].git
+   git clone https://github.com/alexysge/SnkOnline.git
 
 
 2. Abre la carpeta del proyecto.
